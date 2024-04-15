@@ -1,14 +1,30 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import CreateToDo from "./CreateToDo";
-import { Categories, categoryState, toDoSelector } from "../atom";
+import { Categories, categoryState, toDoSelector, toDoState } from "../atom";
 import ToDo from "./ToDo";
 import React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 function ToDoList() {
   const toDos = useRecoilValue(toDoSelector);
   const [category, setCategory] = useRecoilState(categoryState);
+  const setToDos = useSetRecoilState(toDoState);
   const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
     setCategory(event.currentTarget.value as any);
+  };
+  interface ICategory {
+    addCategory: string;
+  }
+  const { register, handleSubmit, setValue } = useForm<ICategory>();
+  const newCategory = ({ addCategory }: ICategory) => {
+    setToDos((prev) => {
+      return {
+        ...prev,
+        [addCategory]: [],
+      };
+    });
+    setValue("addCategory", "");
+    console.log(toDos);
   };
   return (
     <>
@@ -19,6 +35,13 @@ function ToDoList() {
         <option value={Categories.DOING}>Doing</option>
         <option value={Categories.DONE}>Done</option>
       </select>
+      <form onSubmit={handleSubmit(newCategory)}>
+        <input
+          {...register("addCategory")}
+          placeholder='add your own category!'
+        />
+        <button>add category</button>
+      </form>
       <CreateToDo />
       {toDos?.map((toDo) => (
         <ToDo key={toDo.id} {...toDo} />

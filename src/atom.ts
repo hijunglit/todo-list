@@ -24,7 +24,6 @@ export const toDoState = atom<IToDo[]>({
         isReset
           ?localStorage.removeItem(todoStorage)
           :localStorage.setItem(todoStorage, JSON.stringify(newValue))
-
       })
     }
   ],

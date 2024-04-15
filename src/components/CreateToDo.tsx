@@ -8,13 +8,13 @@ type IForm = {
 
 function CreateToDo() {
   const toDosStorage = "ToDos";
-  const [toDos, setToDos] = useRecoilState(toDoState);
+  const setToDos = useSetRecoilState(toDoState);
   const category = useRecoilValue(categoryState);
   const { register, handleSubmit, setValue } = useForm<IForm>();
   const handleValid = ({ toDo }: IForm) => {
     setToDos((oldToDos) => [
-      { text: toDo, id: Date.now(), category },
       ...oldToDos,
+      { text: toDo, id: Date.now(), category },
     ]);
     setValue("toDo", "");
   };
