@@ -1,5 +1,5 @@
-import { useForm } from "react-hook-form";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { categoryState } from "../atoms";
 
 interface IAdd {
@@ -7,33 +7,16 @@ interface IAdd {
 }
 function CreateCategory() {
   const { register, handleSubmit, setValue } = useForm<IAdd>();
-  const categories = useRecoilValue(categoryState);
-  const setCategories = useSetRecoilState(categoryState);
-  const onValid = ({ add }: IAdd) => {
-    if (!add) {
-      return;
-    }
-    setCategories((prev: any) => {
-      return {
-        ...prev,
-        [add]: [],
-      };
-    });
-    setValue("add", "");
+  const category = useRecoilValue(categoryState);
+  const setCategory = useSetRecoilState(categoryState);
+  const onVaild: SubmitHandler<IAdd> = (data) => {
+    console.log("");
   };
   return (
     <div>
-      <h1>Add Category!</h1>
-      <form onSubmit={handleSubmit(onValid)}>
-        <input
-          {...register("add", {
-            minLength: {
-              value: 1,
-              message: "Write category more than 1 charactor",
-            },
-          })}
-          placeholder='Write you own category!'
-        />
+      <h1>Add your own Category!</h1>
+      <form onSubmit={handleSubmit(onVaild)}>
+        <input {...register("add", { minLength: 1 })} />
         <button>Add</button>
       </form>
     </div>
