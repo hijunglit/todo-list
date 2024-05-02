@@ -21,7 +21,6 @@ function CreateCategory() {
     });
     setValue("add", "");
   };
-  console.log(categories);
   return (
     <div>
       <h1>Add Category!</h1>
