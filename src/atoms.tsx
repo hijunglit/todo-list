@@ -5,6 +5,7 @@ export enum Categories {
   "DOING" = "DOING",
   "DONE" = "DONE",
 }
+const defaultCategories: string[] = ["TO_DO", "DOING", "DONE"];
 
 export interface IToDo {
   text: string;
@@ -14,7 +15,7 @@ export interface IToDo {
 
 export const categoryState = atom({
   key: "category",
-  default: "TO_DO",
+  default: defaultCategories[0],
 });
 
 export const toDoState = atom<IToDo[]>({

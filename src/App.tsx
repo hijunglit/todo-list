@@ -50,7 +50,8 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: "Open Sans", sans-serif;
     background: ${(props) => props.theme.backgroundColor};
-    color: #fff;
+    color: ${(props) => props.theme.textColor};
+    height: 100vh;
   }
   a {
     text-decoration: none;

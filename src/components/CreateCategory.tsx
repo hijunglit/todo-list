@@ -9,13 +9,11 @@ function CreateCategory() {
   const { register, handleSubmit, setValue } = useForm<IAdd>();
   const category = useRecoilValue(categoryState);
   const setCategory = useSetRecoilState(categoryState);
-  const onVaild: SubmitHandler<IAdd> = (data) => {
-    console.log("");
-  };
+  const onValid: SubmitHandler<IAdd> = (data) => console.log(data);
   return (
     <div>
       <h1>Add your own Category!</h1>
-      <form onSubmit={handleSubmit(onVaild)}>
+      <form onSubmit={handleSubmit(onValid)}>
         <input {...register("add", { minLength: 1 })} />
         <button>Add</button>
       </form>

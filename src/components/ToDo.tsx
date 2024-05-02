@@ -1,7 +1,14 @@
 import { useRecoilState } from "recoil";
 import { Categories, IToDo, toDoState } from "../atoms";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCarrot } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
+import styled from "styled-components";
 
+const ToDoItem = styled.li`
+  display: flex;
+  justify-content: center;
+`;
 function ToDo({ text, id, category }: IToDo) {
   const [toDos, setTodos] = useRecoilState(toDoState);
   const index = toDos.findIndex((toDo) => toDo.id === id);
@@ -27,25 +34,28 @@ function ToDo({ text, id, category }: IToDo) {
     setTodos(newList);
   };
   return (
-    <li>
-      <span>{text}</span>
-      {category !== Categories.DOING && (
-        <button name={Categories.DOING} onClick={onClick}>
-          Doing
-        </button>
-      )}
-      {category !== Categories.TO_DO && (
-        <button name={Categories.TO_DO} onClick={onClick}>
-          To Do
-        </button>
-      )}
-      {category !== Categories.DONE && (
-        <button name={Categories.DONE} onClick={onClick}>
-          Done
-        </button>
-      )}
-      <button onClick={deleteToDo}>Delete</button>
-    </li>
+    <ToDoItem>
+      <FontAwesomeIcon icon={faCarrot} />
+      <div>
+        <span>{text}</span>
+        {category !== Categories.DOING && (
+          <button name={Categories.DOING} onClick={onClick}>
+            Doing
+          </button>
+        )}
+        {category !== Categories.TO_DO && (
+          <button name={Categories.TO_DO} onClick={onClick}>
+            To Do
+          </button>
+        )}
+        {category !== Categories.DONE && (
+          <button name={Categories.DONE} onClick={onClick}>
+            Done
+          </button>
+        )}
+        <button onClick={deleteToDo}>Delete</button>
+      </div>
+    </ToDoItem>
   );
 }
 export default ToDo;
