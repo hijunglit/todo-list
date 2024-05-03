@@ -5,7 +5,6 @@ export enum Categories {
   "DOING" = "DOING",
   "DONE" = "DONE",
 }
-const defaultCategories: string[] = ["TO_DO", "DOING", "DONE"];
 
 export interface IToDo {
   text: string;
@@ -15,7 +14,7 @@ export interface IToDo {
 
 export const categoryState = atom({
   key: "category",
-  default: defaultCategories[0],
+  default: ["TO_DO", "DOING", "DONE"],
 });
 
 export const toDoState = atom<IToDo[]>({
@@ -42,6 +41,6 @@ export const toDoselector = selector({
   get: ({ get }) => {
     const toDos = get(toDoState);
     const category = get(categoryState);
-    return toDos.filter((toDo) => toDo.category === category);
+    return toDos.filter((toDo) => category.includes(toDo.category));
   },
 });

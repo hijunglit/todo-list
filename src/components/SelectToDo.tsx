@@ -7,10 +7,15 @@ function SelectCategory() {
     setCategory(event.currentTarget.value as any);
   };
   return (
-    <select value={category} onInput={onInput}>
-      <option value='TO_DO'>To Do</option>
+    <select value={category[0]} onInput={onInput}>
+      {category.map((item) => (
+        <option value={item} key={item}>
+          {item}
+        </option>
+      ))}
+      {/* <option value='TO_DO'>To Do</option>
       <option value='DOING'>Doing</option>
-      <option value='DONE'>Done</option>
+      <option value='DONE'>Done</option> */}
     </select>
   );
 }

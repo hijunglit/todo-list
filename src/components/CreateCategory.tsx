@@ -1,15 +1,24 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { categoryState } from "../atoms";
+import { categoryState, toDoState } from "../atoms";
+import { useState } from "react";
 
 interface IAdd {
   add: string;
 }
 function CreateCategory() {
   const { register, handleSubmit, setValue } = useForm<IAdd>();
-  const category = useRecoilValue(categoryState);
-  const setCategory = useSetRecoilState(categoryState);
-  const onValid: SubmitHandler<IAdd> = (data) => console.log(data);
+  const [categories, setCategories] = useRecoilState(categoryState);
+  const onValid: SubmitHandler<IAdd> = (add: any) => {
+    setCategories((prev) => {
+      return {
+        ...prev,
+        add,
+      };
+    });
+    setValue("add", "");
+  };
+  console.log(categories);
   return (
     <div>
       <h1>Add your own Category!</h1>
