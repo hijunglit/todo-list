@@ -1,48 +1,48 @@
-import React from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { Categories, categoryState, toDoselector } from "../atoms";
-import CreateToDo from "./CreateToDo";
-import ToDo from "./ToDo";
-import CreateCategory from "./CreateCategory";
-import SelectCategory from "./SelectToDo";
-import styled from "styled-components";
+import { atom, useRecoilState } from "recoil";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { v1 } from "uuid";
 
-const Container = styled.div`
-  width: fit-content;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  margin: 0 auto;
-`;
-const Item = styled.div`
-  margin-bottom: 20rem;
-`;
-const Title = styled.h1`
-  font-family: "Pacifico", cursive;
-  font-size: 3rem;
-  text-transform: uppercase;
-  margin-bottom: 50px;
-`;
-const ToDos = styled.ul``;
+interface IForm {
+  toDo: string;
+}
+interface IToDo {
+  text: string;
+  id: number;
+  category: "TO_DO" | "DOING" | "DONE";
+}
+const toDoState = atom<IToDo[]>({
+  key: `toDos/${v1()}`,
+  default: [],
+});
 
 function ToDoList() {
-  const toDos = useRecoilValue(toDoselector);
+  const [toDos, setToDos] = useRecoilState(toDoState);
+  const { register, handleSubmit, setValue } = useForm<IForm>();
+  const handleValid = ({ toDo }: IForm) => {
+    setToDos((oldToDos) => [
+      ...oldToDos,
+      { text: toDo, id: Date.now(), category: "TO_DO" },
+    ]);
+    setValue("toDo", "");
+  };
+  console.log(toDos);
   return (
-    <Container>
-      <Item>
-        <Title>to do list</Title>
-        <SelectCategory />
-        <CreateToDo />
-        <ToDos>
-          {toDos?.map((toDo) => (
-            <ToDo key={toDo.id} {...toDo} />
-          ))}
-        </ToDos>
-        <CreateCategory />
-      </Item>
-    </Container>
+    <div>
+      <h1>To Dos</h1>
+      <hr />
+      <form onSubmit={handleSubmit(handleValid)}>
+        <input
+          {...register("toDo", { required: "Please write To Do" })}
+          placeholder='Write a to do'
+        />
+        <button>Add</button>
+      </form>
+      <ul>
+        {toDos.map((toDo) => (
+          <li key={toDo.id}>{toDo.text}</li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
