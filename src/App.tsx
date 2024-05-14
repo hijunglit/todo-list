@@ -51,7 +51,6 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Open Sans", sans-serif;
     background: ${(props) => props.theme.backgroundColor};
     color: ${(props) => props.theme.textColor};
-    height: 100vh;
   }
   a {
     text-decoration: none;

@@ -1,6 +1,18 @@
+import React from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { IToDo, categoryState, toDoState } from "../atoms";
-import React from "react";
+import styled from "styled-components";
+
+const CategoryList = styled.li`
+  span {
+    margin-right: 6px;
+  }
+  padding-bottom: 6px;
+  button {
+    background: transparent;
+    margin-right: 4px;
+  }
+`;
 
 function ToDo({ text, category, id }: IToDo) {
   const [toDos, setToDos] = useRecoilState(toDoState);
@@ -9,7 +21,6 @@ function ToDo({ text, category, id }: IToDo) {
     const {
       currentTarget: { name },
     } = event;
-    console.log(name);
     setToDos((oldToDos) => {
       const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
       const newToDo = { text, id, category: name as any };
@@ -20,16 +31,18 @@ function ToDo({ text, category, id }: IToDo) {
       ];
     });
   };
+
   function removeItemAtIndex(arr: any, index: number) {
     return [...arr.slice(0, index), ...arr.slice(index + 1)];
   }
+
   const deleteItem = () => {
     const index = toDos.findIndex((toDo) => toDo.id === id);
     const newList = removeItemAtIndex(toDos, index);
     setToDos(newList);
   };
   return (
-    <li>
+    <CategoryList>
       <span>{text}</span>
       {category !== "DOING" && (
         <button name='DOING' onClick={onClick}>
@@ -52,7 +65,7 @@ function ToDo({ text, category, id }: IToDo) {
         </button>
       ))}
       <button onClick={deleteItem}>X</button>
-    </li>
+    </CategoryList>
   );
 }
 
