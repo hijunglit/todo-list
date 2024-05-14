@@ -11,6 +11,8 @@ const CategoryList = styled.li`
   button {
     background: transparent;
     margin-right: 4px;
+    border-radius: 6px;
+    border: 1px solid #000001;
   }
 `;
 

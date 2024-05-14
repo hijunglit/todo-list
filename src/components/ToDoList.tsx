@@ -8,7 +8,7 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   width: fit-content;
   margin: 0 auto;
-  margin-top: 300px;
+  margin-top: 100px;
   text-align: center;
 `;
 const Title = styled.h1`
